@@ -2,6 +2,7 @@
 #include "ros/ros.h"
 #include "gnss_l86_interface/GnssData.h"
 #include "cartesian_pose/CartesianPose.h"
+#include "cartesian_pose/cartesian_pose.h"
 #include "gnss_l86_interface/gnss_l86_lib.h"
 
 position gnss_position;
@@ -26,7 +27,33 @@ int main(int argc, char **argv)
     ros::Publisher publisher = n.advertise<cartesian_pose::CartesianPose>("cartesian_pose", 1000);
     ros::Subscriber subscriber = n.subscribe("gnss_data", 1000, gnss_data_callback);
     ros::Rate loop_rate(1000);
-    cartesian_pose::CartesianPose pose;
+
+    gps_position north;
+    north.latitude = 84.7;
+    north.longitude = 169.77;
+    north.timestamp = 0;
+
+    gps_position ref;
+    ref.latitude = 57.052968;
+    ref.longitude = 9.915675;
+    ref.timestamp = 0;
+
+    gps_position dest;
+    dest.latitude = 57.052968;
+    dest.longitude = 9.905196;
+    dest.timestamp = 0;
+
+    coordinates_2d vel;
+    vel.x = 0;
+    vel.y = 0;
+
+    CartesianPose pose(north, ref, vel);
+    cart_pose dest_c = pose.calculate_cartesian(dest, 0);
+    ROS_INFO_STREAM("X -> " << dest_c.position.x);
+    ROS_INFO_STREAM("Y -> " << dest_c.position.y);
+    ROS_INFO_STREAM("B -> " << dest_c.bearing);
+
+    return 0;
 
     while (ros::ok())
     {
