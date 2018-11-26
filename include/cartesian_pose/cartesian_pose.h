@@ -1,11 +1,10 @@
 #define EARTH_R 6371000
-#define PI 3.14159265
 
 struct gps_position
 {
-    float latitude;
-    float longitude;
-    float timestamp;
+    float latitude;     // Parallel [degrees]
+    float longitude;    // Meridian [degrees]
+    float timestamp;    // Unix timestamp [ms]
 };
 
 struct coordinates_2d
@@ -16,11 +15,17 @@ struct coordinates_2d
 
 struct cart_pose
 {
-    coordinates_2d position;
-    coordinates_2d velocity;
-    coordinates_2d acceleration;
-    float bearing;
-    float timestamp;
+    coordinates_2d position;    // Distance [m]
+    float bearing;              // Heading [radians]
+    float timestamp;            // Unix timestamp [ms]
+};
+
+struct imu_data
+{
+    coordinates_2d acceleration;    // Liner acceleration [m/s^2]
+    float yaw_vel;                  // Yaw angular acceleration [degrees/s^2]
+    float bearing;                  // Magnetic heading [degrees]
+    float timestamp;                // Unix timestamp [ms]
 };
 
 class CartesianPose
@@ -33,27 +38,40 @@ class CartesianPose
         coordinates_2d last_velocity_;
         coordinates_2d last_acceleration_;
         float declination_;
-        float calculate_bearing_(gps_position origin, gps_position destination);
-        float calculate_magnetic_declination_(gps_position gps, gps_position magnetic_north);
+        float last_bearing_;
+        float last_yaw_vel_;
+        float last_yaw_acc_;
+        float bearing_(gps_position origin, gps_position destination);
+        coordinates_2d cartesian_position_(gps_position gps);
+        float magnetic_declination_(gps_position gps, gps_position magnetic_north);
         bool check_angle_(float degrees);
         bool check_gps_position_(gps_position gps);
         float degrees_(float radians);
         gps_position degrees_(gps_position gps);
         float radians_(float degrees);
         gps_position radians_(gps_position gps);
+        void set_acceleration_(coordinates_2d acceleration);
+        void set_last_cartesian_(cart_pose pose);
+        void set_last_bearing_(float bearing_mag);
+        void set_last_yaw_vel_(float yaw_vel);
+        void set_last_yaw_acc_(float yaw_acc);
     public:
-        CartesianPose(gps_position magnetic_north, gps_position ref, coordinates_2d initial_velocity);
+        CartesianPose(gps_position magnetic_north, gps_position ref, coordinates_2d initial_vel, coordinates_2d initial_acc, float initial_bearing_mag);
         ~CartesianPose();
-        cart_pose calculate_cartesian(gps_position gps, float bearing);
-        cart_pose estimate_cartesian(cart_pose cartesian_pose);
-        coordinates_2d get_velocity();
-        gps_position get_north_magnetic_gps();
-        gps_position get_last_gps();
-        gps_position get_gps_ref();
+        cart_pose cartesian_pose(gps_position gps, float bearing_mag);
+        cart_pose cartesian_pose(imu_data imu);
         cart_pose get_last_cartesian();
         float get_magnectic_declination();
+        gps_position get_magnetic_north_gps();
+        float get_last_bearing();
+        gps_position get_last_gps();
+        gps_position get_gps_ref();
+        coordinates_2d get_acceleration();
+        coordinates_2d get_velocity();
+        float get_yaw_acceleration();
+        float get_yaw_velocity();
         bool set_magnetic_declination(float declination);
         bool set_gps_ref(gps_position gps);
-        bool set_north_magnetic_gps(gps_position gps);
+        bool set_magnetic_north_gps(gps_position gps);
         void set_velocity(coordinates_2d velocity);
 };
