@@ -61,6 +61,8 @@ int main(int argc, char **argv)
             pose = CartesianPose(gps_data, gps_data, vel, acc, imu_data.bearing);
             cartesian_pose = pose.get_last_cartesian();
             is_first_gps = false;
+            new_gps = false;
+            new_imu = false;
         }
         else if (new_gps && !is_first_gps)
         {
