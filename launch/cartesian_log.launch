@@ -1,8 +1,8 @@
 <launch>
     <node 
-        pkg = "gnss_interface" 
-        name = "gnss_interface_node"
-        type = "gnss_interface_node"
+        pkg = "gnss_l86_interface" 
+        name = "gnss_l86_interface_node"
+        type = "gnss_l86_interface_node"
     /> 
 
     <node
