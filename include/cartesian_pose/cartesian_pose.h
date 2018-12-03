@@ -4,7 +4,7 @@ struct gps_position
 {
     float latitude;     // Parallel [degrees]
     float longitude;    // Meridian [degrees]
-    float timestamp;    // Unix timestamp [ms]
+    unsigned long long timestamp;    // Unix timestamp [ms]
 };
 
 struct coordinates_2d
@@ -17,7 +17,7 @@ struct cart_pose
 {
     coordinates_2d position;    // Distance [m]
     float bearing;              // Heading [radians]
-    float timestamp;            // Unix timestamp [ms]
+    unsigned long long timestamp;            // Unix timestamp [ms]
 };
 
 struct imu_data
@@ -25,7 +25,7 @@ struct imu_data
     coordinates_2d acceleration;    // Liner acceleration [m/s^2]
     float yaw_vel;                  // Yaw angular acceleration [degrees/s^2]
     float bearing;                  // Magnetic heading [degrees]
-    float timestamp;                // Unix timestamp [ms]
+    unsigned long long timestamp;                // Unix timestamp [ms]
 };
 
 class CartesianPose
