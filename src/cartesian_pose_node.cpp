@@ -6,11 +6,13 @@
 #include "gnss_l86_interface/GnssData.h"
 #include "imu_interface/gy_88_lib.h"
 #include "imu_interface/Gy88Data.h"
+#include "catamaran_controller/LogInstruction.h"
 
 gps_position gps_data;
 imu_data imu_data;
 bool new_imu = false;
 bool new_gps = false;
+int instruction = 0;
 
 void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
 {
@@ -30,6 +32,12 @@ void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
     new_imu = true;
 }
 
+void instruction_callback(const catamaran_controller::LogInstruction::ConstPtr& instruction_msg)
+{
+    instruction = instruction_msg->instruction;
+    ROS_INFO("Instruction %i", instruction);
+}
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "cartesian_pose_node");
@@ -37,6 +45,7 @@ int main(int argc, char **argv)
     ros::Publisher publisher = n.advertise<cartesian_pose::CartesianLog>("cartesian_log", 1000);
     ros::Subscriber gnss_sub = n.subscribe("gnss_data", 1000, gnss_data_callback);
     ros::Subscriber imu_sub = n.subscribe("gy88_data", 1000, imu_data_callback);
+    ros::Subscriber catamaran_sub = n.subscribe("log_instruction", 1000, instruction_callback);
     ros::Rate loop_rate(20);
 
     cartesian_pose::CartesianLog cartesian_log;
