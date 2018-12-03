@@ -46,6 +46,12 @@ int get_file_number(std::string file_name)
     std::getline(count_file, line);
     int count = std::stoi(line) + 1;
     count_file.close();
+
+    std::ofstream count_file_in;
+    file.open(file_name);
+    count_file_in << count << std::endl;
+    count_file_in.close();
+
     return count;
 }
 
