@@ -167,9 +167,9 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     set_last_yaw_vel_(temp_yaw_vel);
     set_last_yaw_acc_(temp_yaw_acc);
 
-    ROS_INFO_STREAM("Position --------> (" << last_cartesian_.position.x << "; " << last_cartesian_.position.y << ")");
-    ROS_INFO_STREAM("Velocity --------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
-    ROS_INFO_STREAM("Acceleration ----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
+    ROS_INFO_STREAM("Position ---------> (" << last_cartesian_.position.x << "; " << last_cartesian_.position.y << ")");
+    ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
+    ROS_INFO_STREAM("Acceleration -----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
     ROS_INFO_STREAM("Bearing ----------> " << last_bearing_);
     ROS_INFO_STREAM("Yaw velocity -----> " << last_yaw_vel_);
     ROS_INFO_STREAM("Yaw acceleration -> " << last_yaw_acc_);
@@ -181,6 +181,9 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
 {
     assert(imu.timestamp > 0);
     set_last_bearing_(imu.bearing);
+
+    imu.acceleration.x -= 0.756568;
+    imu.acceleration.y -= 8.51378;
 
     unsigned long delta_time_t = (imu.timestamp - last_cartesian_.timestamp);
     float delta_time = (float)delta_time_t / 1000.0;
@@ -211,9 +214,9 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     set_last_yaw_vel_(yaw_vel);
     set_last_yaw_acc_(yaw_acc);
 
-    ROS_INFO_STREAM("Position --------> (" << last_cartesian_.position.x << "; " << last_cartesian_.position.y << ")");
-    ROS_INFO_STREAM("Velocity --------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
-    ROS_INFO_STREAM("Acceleration ----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
+    ROS_INFO_STREAM("Position ---------> (" << last_cartesian_.position.x << "; " << last_cartesian_.position.y << ")");
+    ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
+    ROS_INFO_STREAM("Acceleration -----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
     ROS_INFO_STREAM("Bearing ----------> " << last_bearing_);
     ROS_INFO_STREAM("Yaw velocity -----> " << last_yaw_vel_);
     ROS_INFO_STREAM("Yaw acceleration -> " << last_yaw_acc_);
