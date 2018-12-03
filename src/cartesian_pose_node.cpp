@@ -67,7 +67,8 @@ int main(int argc, char **argv)
         else if (new_gps && !is_first_gps)
         {
             cartesian_pose = pose.cartesian_pose(gps_data, imu_data.bearing);
-            ROS_INFO("X from GPS -> %f", cartesian_pose.position.x);
+            // ROS_INFO("X from GPS -> %f", cartesian_pose.position.x);
+            ROS_INFO("---------- GPS ----------");
             cartesian_log.ready_to_log = true;
             publisher.publish(cartesian_log);
             new_gps = false;
@@ -75,8 +76,8 @@ int main(int argc, char **argv)
         else if (new_imu && !is_first_gps)
         {
             cartesian_pose = pose.cartesian_pose(imu_data);
-            ROS_INFO("X from IMU -> %f", cartesian_pose.position.x);
-            // ROS_INFO("B from IMU -> %f", cartesian_pose.bearing);
+            ROS_INFO("---------- IMU ----------");
+            // ROS_INFO("X from IMU -> %f", cartesian_pose.position.x);
             new_imu = false;
         }
 
