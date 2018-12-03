@@ -177,6 +177,7 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
     ROS_INFO_STREAM("Speed ------------> " << get_speed());
     ROS_INFO_STREAM("Timestamp --------> " << pose.timestamp);
+    ROS_INFO_STREAM("Delta time -------> " << delta_time);
     // ROS_INFO_STREAM("Acceleration -----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
     // ROS_INFO_STREAM("Bearing ----------> " << last_bearing_);
     // ROS_INFO_STREAM("Yaw velocity -----> " << last_yaw_vel_);
