@@ -68,6 +68,7 @@ int main(int argc, char **argv)
     bool file_close = true;
     std::ofstream file;
     std::string directory = "/home/ubuntu/catkin_ws/src/cartesian_pose/log/";
+    std::string file_name;
 
     while (ros::ok())
     {
@@ -76,12 +77,12 @@ int main(int argc, char **argv)
             switch(instruction)
             {
                 case 2:
-                    std::string file_name = directory + "surge_damping_test.csv";
+                    file_name = directory + "surge_damping_test.csv";
                     file.open(file_name, std::ios_base::app);
                     file_close = false;
                     break;
                 case 4:
-                    std::string file_name = directory + "yaw_damping_test.csv";
+                    file_name = directory + "yaw_damping_test.csv";
                     file.open(file_name, std::ios_base::app);
                     file_close = false;
                     break;
