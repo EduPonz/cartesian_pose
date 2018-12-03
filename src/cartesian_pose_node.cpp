@@ -11,7 +11,6 @@ gps_position gps_data;
 imu_data imu_data;
 bool new_imu = false;
 bool new_gps = false;
-int prev_fix_state = -1;
 
 void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
 {
@@ -38,7 +37,8 @@ int main(int argc, char **argv)
     ros::Publisher publisher = n.advertise<cartesian_pose::CartesianLog>("cartesian_log", 1000);
     ros::Subscriber gnss_sub = n.subscribe("gnss_data", 1000, gnss_data_callback);
     ros::Subscriber imu_sub = n.subscribe("gy88_data", 1000, imu_data_callback);
-    ros::Rate loop_rate(1000);
+    ros::Rate loop_rate(10);
+
     cartesian_pose::CartesianLog cartesian_log;
 
     bool is_first_gps = true;
@@ -51,6 +51,8 @@ int main(int argc, char **argv)
     acc.x = 0;
     acc.y = 0;
 
+    CartesianPose pose(gps_data, gps_data, vel, acc, 0);
+    cart_pose cartesian_pose;
     // float bearing = -2.96452;
     // CartesianPose pose(north, ref, vel, acc, bearing);
     // cart_pose dest_c = pose.get_last_cartesian();
@@ -73,22 +75,26 @@ int main(int argc, char **argv)
 
     while (ros::ok())
     {
-        if (new_gps)
+        if (is_first_gps && new_imu && new_gps)
         {
-            // if (is_first_gps)
-            // {
-
-            // }
+            pose = new CartesianPose(gps_data, gps_data, vel, acc, imu_data.bearing);
+            cartesian_pose = pose.get_last_cartesian();
+            is_first_gps = false;
+        }
+        else if (new_gps && !is_first_gps)
+        {
+            cartesian_pose = pose.cartesian_pose(gps_data, imu_data.bearing);
+            ROS_INFO("X from GPS -> %f", cartesian_pose.position.x);
             cartesian_log.ready_to_log = true;
             publisher.publish(cartesian_log);
             new_gps = false;
         }
-        // else if (new_imu)
-        // {
-        //     cartesian_log.ready_to_log = !cartesian_log.ready_to_log;
-        //     publisher.publish(cartesian_log);
-        //     new_imu = false;
-        // }
+        else if (new_imu && !is_first_gps)
+        {
+            cartesian_pose = pose.cartesian_pose(imu_data);
+            ROS_INFO("X from IMU -> %f", cartesian_pose.position.x);
+            new_imu = false;
+        }
 
         ros::spinOnce();
         loop_rate.sleep();
