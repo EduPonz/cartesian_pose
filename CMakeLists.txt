@@ -10,7 +10,7 @@ add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
   gnss_l86_interface
-  gy_88_interface
+  imu_interface
   roscpp
   std_msgs
   message_generation
