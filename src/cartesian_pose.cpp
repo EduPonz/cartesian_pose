@@ -148,8 +148,10 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     // float delta_time = ((float)pose.timestamp - (float)last_cartesian_.timestamp) / 1000;
     unsigned long delta_time_t = (pose.timestamp - last_cartesian_.timestamp);
     float delta_time = (float)delta_time_t / 1000.0;
+    ROS_INFO_STREAM("delta time " << delta_time);
 
     coordinates_2d temp_vel;
+    ROS_INFO_STREAM("dif " << (float)(pose.position.x - last_cartesian_.position.x));
     temp_vel.x = (float)(pose.position.x - last_cartesian_.position.x) / delta_time;
     temp_vel.y = (float)(pose.position.y - last_cartesian_.position.y) / delta_time;
     ROS_INFO_STREAM("X vel " << temp_vel.x);
