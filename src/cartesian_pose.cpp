@@ -222,11 +222,11 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     set_last_yaw_vel_(yaw_vel);
     set_last_yaw_acc_(yaw_acc);
 
-    ROS_INFO("------------------------------ IMU ------------------------------");
-    ROS_INFO_STREAM("Position ---------> (" << last_cartesian_.position.x << "; " << last_cartesian_.position.y << ")");
-    ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
-    ROS_INFO_STREAM("Speed ------------> " << get_speed());
-    ROS_INFO_STREAM("Timestamp --------> " << last_cartesian_.timestamp);
+    // ROS_INFO("------------------------------ IMU ------------------------------");
+    // ROS_INFO_STREAM("Position ---------> (" << last_cartesian_.position.x << "; " << last_cartesian_.position.y << ")");
+    // ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
+    // ROS_INFO_STREAM("Speed ------------> " << get_speed());
+    // ROS_INFO_STREAM("Timestamp --------> " << last_cartesian_.timestamp);
     // ROS_INFO_STREAM("Acceleration -----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
     // ROS_INFO_STREAM("Bearing ----------> " << last_bearing_);
     // ROS_INFO_STREAM("Yaw velocity -----> " << last_yaw_vel_);
