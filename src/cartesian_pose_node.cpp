@@ -4,8 +4,8 @@
 #include "cartesian_pose/cartesian_pose.h"
 #include "gnss_l86_interface/gnss_l86_lib.h"
 #include "gnss_l86_interface/GnssData.h"
-#include "gy_88_interface/gy_88_lib.h"
-#include "gy_88_interface/Gy88Data.h"
+#include "imu_interface/gy_88_lib.h"
+#include "imu_interface/Gy88Data.h"
 
 gps_position gps_data;
 imu_data imu_data;
