@@ -39,6 +39,14 @@ void instruction_callback(const catamaran_controller::LogInstruction::ConstPtr& 
     instruction = instruction_msg->instruction;
 }
 
+int get_file_number(std::string file_name)
+{
+    ifstream count_file(file_name);
+    count = (int)getline(file_name, line) + 1;
+    count_file.close();
+    return count;
+}
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "cartesian_pose_node");
@@ -77,14 +85,14 @@ int main(int argc, char **argv)
             switch(instruction)
             {
                 case 2:
-                    file_name = directory + "surge_damping_test.csv";
-                    // file.open(file_name, std::ios_base::app);
+                    surge_file = directory + "surge_counter.txt";
+                    int count = get_file_number(surge_file);
+                    file_name = directory + "surge_damping_test_" + std::to_strin(count) + ".csv";
                     file.open(file_name);
                     file_close = false;
                     break;
                 case 4:
                     file_name = directory + "yaw_damping_test.csv";
-                    // file.open(file_name, std::ios_base::app);
                     file.open(file_name);
                     file_close = false;
                     break;
