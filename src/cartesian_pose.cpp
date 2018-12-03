@@ -145,14 +145,19 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     pose.bearing = last_bearing_;
     pose.timestamp = gps.timestamp;
 
-    float delta_time = ((float)pose.timestamp - (float)last_cartesian_.timestamp) / 1000;
+    // float delta_time = ((float)pose.timestamp - (float)last_cartesian_.timestamp) / 1000;
+    unsigned long delta_time_t = (pose.timestamp - last_cartesian_.timestamp);
+    float delta_time = (float)delta_time_t / 1000.0;
+
     coordinates_2d temp_vel;
-    temp_vel.x = (pose.position.x - last_cartesian_.position.x) / delta_time;
-    temp_vel.y = (pose.position.y - last_cartesian_.position.y) / delta_time;
+    temp_vel.x = (float)(pose.position.x - last_cartesian_.position.x) / delta_time;
+    temp_vel.y = (float)(pose.position.y - last_cartesian_.position.y) / delta_time;
+    ROS_INFO_STREAM("X vel " << temp_vel.x);
 
     coordinates_2d temp_acc;
-    temp_acc.x = (temp_vel.x - last_velocity_.x) / delta_time;
-    temp_acc.y = (temp_vel.y - last_velocity_.y) / delta_time;
+    temp_acc.x = (float)(temp_vel.x - last_velocity_.x) / delta_time;
+    temp_acc.y = (float)(temp_vel.y - last_velocity_.y) / delta_time;
+    ROS_INFO_STREAM("X acc " << temp_acc.x);
 
     float delta_bearing = bearing - last_bearing_;
     float temp_yaw_vel = delta_bearing / delta_time;
