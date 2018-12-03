@@ -78,12 +78,14 @@ int main(int argc, char **argv)
             {
                 case 2:
                     file_name = directory + "surge_damping_test.csv";
-                    file.open(file_name, std::ios_base::app);
+                    // file.open(file_name, std::ios_base::app);
+                    file.open(file_name);
                     file_close = false;
                     break;
                 case 4:
                     file_name = directory + "yaw_damping_test.csv";
-                    file.open(file_name, std::ios_base::app);
+                    // file.open(file_name, std::ios_base::app);
+                    file.open(file_name);
                     file_close = false;
                     break;
             }
