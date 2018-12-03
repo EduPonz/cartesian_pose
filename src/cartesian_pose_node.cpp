@@ -43,7 +43,7 @@ int get_file_number(std::string file_name)
 {
     std::string line;
     std::ifstream count_file(file_name);
-    int count = (int)std::getline(file_name, line) + 1;
+    int count = (int)std::getline(count_file, line) + 1;
     count_file.close();
     return count;
 }
