@@ -30,6 +30,7 @@ int main(int argc, char **argv)
     ros::Publisher publisher = n.advertise<cartesian_pose::CartesianLog>("cartesian_log", 1000);
     ros::Subscriber subscriber = n.subscribe("gnss_data", 1000, gnss_data_callback);
     ros::Rate loop_rate(1000);
+    cartesian_pose::CartesianLog cartesian_log;
 
     // gps_position north;
     // north.latitude = 84.7;
@@ -73,7 +74,8 @@ int main(int argc, char **argv)
     {
         if (fix_state != prev_fix_state)
         {
-            publisher.publish(true);
+            cartesian_log.ready_to_log = fix_state;
+            publisher.publish(cartesian_log);
             prev_fix_state = fix_state;
         }
 
