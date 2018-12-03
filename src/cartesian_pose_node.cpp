@@ -88,7 +88,7 @@ int main(int argc, char **argv)
                     file_close = false;
                     break;
                 case 4:
-                    file_name = directory + "yaw_damping_test.csv";
+                    file_name = directory + "yaw_damping_test_" + std::to_string(get_unix_millis()) + ".csv";
                     file.open(file_name);
                     file_close = false;
                     break;
