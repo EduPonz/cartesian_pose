@@ -10,7 +10,7 @@
 gps_position gps_data;
 imu_data imu_data;
 bool new_imu = false;
-int fix_state = 0;
+bool new_gps = false;
 int prev_fix_state = -1;
 
 void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
@@ -18,7 +18,7 @@ void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
     gps_data.latitude = gnss_msg->latitude;
     gps_data.longitude = gnss_msg->longitude;
     gps_data.timestamp = gnss_msg->timestamp;
-    fix_state = gnss_msg->fix;
+    new_gps = true;
 }
 
 void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
@@ -73,15 +73,15 @@ int main(int argc, char **argv)
 
     while (ros::ok())
     {
-        if (fix_state != prev_fix_state)
+        if (new_gps)
         {
             // if (is_first_gps)
             // {
 
             // }
-            cartesian_log.ready_to_log = fix_state;
+            cartesian_log.ready_to_log = true;
             publisher.publish(cartesian_log);
-            prev_fix_state = fix_state;
+            new_gps = false;
         }
         // else if (new_imu)
         // {
