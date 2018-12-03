@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <math.h>
+#include <ros/console.h>
 #include "cartesian_pose/cartesian_pose.h"
 
 // ******************************** CONSTRUCTORS-DESTRUCTORS *******************************
@@ -173,17 +174,26 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     set_last_bearing_(imu.bearing);
 
     float delta_time = (imu.timestamp - last_cartesian_.timestamp) / 1000;
+    ROS_INFO_STREAM("delta time " << delta_time);
+
     cart_pose pose;
     pose.position.x = last_cartesian_.position.x
                     + last_velocity_.x * delta_time
                     + imu.acceleration.x * pow(delta_time, 2);
 
+    ROS_INFO_STREAM("X pose " << pose.position.x);
+
     pose.position.y = last_cartesian_.position.y
                     + last_velocity_.y * delta_time
                     + imu.acceleration.y * pow(delta_time, 2);
-    
+
+    ROS_INFO_STREAM("Y pose " << pose.position.y);
+
     pose.bearing = last_bearing_;
     pose.timestamp = imu.timestamp;
+
+    ROS_INFO_STREAM("Bearing " << pose.bearing);
+    ROS_INFO_STREAM("timestamp " << pose.timestamp);
 
     coordinates_2d vel;
     vel.x = last_velocity_.x + imu.acceleration.x * delta_time;
