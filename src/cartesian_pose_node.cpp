@@ -83,12 +83,12 @@ int main(int argc, char **argv)
             publisher.publish(cartesian_log);
             prev_fix_state = fix_state;
         }
-        else if (new_imu)
-        {
-            cartesian_log.ready_to_log = !cartesian_log.ready_to_log;
-            publisher.publish(cartesian_log);
-            new_imu = false;
-        }
+        // else if (new_imu)
+        // {
+        //     cartesian_log.ready_to_log = !cartesian_log.ready_to_log;
+        //     publisher.publish(cartesian_log);
+        //     new_imu = false;
+        // }
 
         ros::spinOnce();
         loop_rate.sleep();
