@@ -77,6 +77,7 @@ int main(int argc, char **argv)
             cartesian_log.ready_to_log = fix_state;
             publisher.publish(cartesian_log);
             prev_fix_state = fix_state;
+            ROS_INFO("State Changed!");
         }
 
         ros::spinOnce();

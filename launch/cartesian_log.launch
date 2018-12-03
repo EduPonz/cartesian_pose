@@ -1,11 +1,9 @@
 <launch>
-<!-- 
     <node 
         pkg = "gnss_interface" 
         name = "gnss_interface_node"
-        required = "true"
+        type = "gnss_interface_node"
     /> 
--->
 
     <node
         pkg = "cartesian_pose"
