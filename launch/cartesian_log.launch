@@ -5,7 +5,14 @@
         type = "gnss_l86_interface_node"
         args = "/dev/serial0"
         required = "true"
-    /> 
+    />
+
+    <node 
+        pkg = "gy_88_interface"
+        name = "gy_88_interface_node"
+        type = "gy_88_interface_node"
+        required = "true"
+    />
 
     <node
         pkg = "cartesian_pose"
