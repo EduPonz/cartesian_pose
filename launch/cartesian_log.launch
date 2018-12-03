@@ -8,7 +8,7 @@
     />
 
     <node 
-        pkg = "gy_88_interface"
+        pkg = "imu_interface"
         name = "imu_interface_node"
         type = "imu_interface_node"
         required = "true"
