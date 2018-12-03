@@ -21,7 +21,7 @@ void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
     fix_state = gnss_msg->fix;
 }
 
-void imu_data_callback(const gy_88_interface::Gy88Data::ConstPtr& imu_msg)
+void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
 {
     imu_data.acceleration.x = imu_msg->si_accel_x;
     imu_data.acceleration.y = imu_msg->si_accel_y;
