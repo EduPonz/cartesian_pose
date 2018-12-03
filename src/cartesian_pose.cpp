@@ -177,7 +177,7 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     ROS_INFO_STREAM("last time " << last_cartesian_.timestamp);
     // double delta_time = (imu.timestamp - last_cartesian_.timestamp) / 1000;
     unsigned long delta_time_t = (imu.timestamp - last_cartesian_.timestamp);
-    float delta_time = delta_time_t / 1000;
+    float delta_time = (float)delta_time_t / 1000.0;
     ROS_INFO_STREAM("delta time_t " << delta_time_t);
     ROS_INFO_STREAM("delta time " << delta_time);
 
