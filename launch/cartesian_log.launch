@@ -9,7 +9,7 @@
 
     <node
         pkg = "cartesian_pose"
-        type = "cartesian_pose"
+        type = "cartesian_pose_node"
         name = "cartesian_pose_node"
     />
 </launch>
