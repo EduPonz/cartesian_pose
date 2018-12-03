@@ -145,21 +145,16 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     pose.bearing = last_bearing_;
     pose.timestamp = gps.timestamp;
 
-    // float delta_time = ((float)pose.timestamp - (float)last_cartesian_.timestamp) / 1000;
     unsigned long delta_time_t = (pose.timestamp - last_cartesian_.timestamp);
     float delta_time = (float)delta_time_t / 1000.0;
-    ROS_INFO_STREAM("delta time " << delta_time);
 
     coordinates_2d temp_vel;
-    ROS_INFO_STREAM("dif " << (float)(pose.position.x - last_cartesian_.position.x));
     temp_vel.x = (float)(pose.position.x - last_cartesian_.position.x) / delta_time;
     temp_vel.y = (float)(pose.position.y - last_cartesian_.position.y) / delta_time;
-    ROS_INFO_STREAM("X vel " << temp_vel.x);
 
     coordinates_2d temp_acc;
     temp_acc.x = (float)(temp_vel.x - last_velocity_.x) / delta_time;
     temp_acc.y = (float)(temp_vel.y - last_velocity_.y) / delta_time;
-    ROS_INFO_STREAM("X acc " << temp_acc.x);
 
     float delta_bearing = bearing - last_bearing_;
     float temp_yaw_vel = delta_bearing / delta_time;
@@ -180,40 +175,24 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     assert(imu.timestamp > 0);
     set_last_bearing_(imu.bearing);
 
-    ROS_INFO_STREAM("imu time " << imu.timestamp);
-    ROS_INFO_STREAM("last time " << last_cartesian_.timestamp);
-    // double delta_time = (imu.timestamp - last_cartesian_.timestamp) / 1000;
     unsigned long delta_time_t = (imu.timestamp - last_cartesian_.timestamp);
     float delta_time = (float)delta_time_t / 1000.0;
-    ROS_INFO_STREAM("delta time_t " << delta_time_t);
-    ROS_INFO_STREAM("delta time " << delta_time);
 
     cart_pose pose;
-    // pose.position.x = (float)last_cartesian_.position.x
-    //                 + (float)last_velocity_.x * delta_time
-    //                 + (float)imu.acceleration.x * pow(delta_time, 2);
-
-    ROS_INFO_STREAM("X vel last " << last_velocity_.x);
-    pose.position.x = last_cartesian_.position.x + last_velocity_.x;
-
-    ROS_INFO_STREAM("X pose " << pose.position.x);
+    pose.position.x = (float)last_cartesian_.position.x
+                    + (float)last_velocity_.x * delta_time
+                    + (float)imu.acceleration.x * pow(delta_time, 2);
 
     pose.position.y = (float)last_cartesian_.position.y
                     + (float)last_velocity_.y * delta_time
                     + (float)imu.acceleration.y * pow(delta_time, 2);
 
-    ROS_INFO_STREAM("Y pose " << pose.position.y);
-
     pose.bearing = last_bearing_;
     pose.timestamp = imu.timestamp;
-
-    ROS_INFO_STREAM("Bearing " << pose.bearing);
-    ROS_INFO_STREAM("timestamp " << pose.timestamp);
 
     coordinates_2d vel;
     vel.x = last_velocity_.x + imu.acceleration.x * delta_time;
     vel.y = last_velocity_.y + imu.acceleration.y * delta_time;
-    ROS_INFO_STREAM("X vel " << last_velocity_.x);
 
     float yaw_vel = radians_(imu.yaw_vel);
     float yaw_acc = (yaw_vel - last_yaw_vel_) * delta_time; 
@@ -314,5 +293,4 @@ void CartesianPose::set_velocity(coordinates_2d velocity)
 {
     last_velocity_.x = velocity.x;
     last_velocity_.y = velocity.y;
-    ROS_INFO_STREAM("------X vel------------- " << velocity.x);
 }
