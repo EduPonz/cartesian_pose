@@ -42,6 +42,7 @@ class CartesianPose
         float last_bearing_;
         float last_yaw_vel_;
         float last_yaw_acc_;
+        float last_gps_timestamp_;
         float bearing_(gps_position origin, gps_position destination);
         coordinates_2d cartesian_position_(gps_position gps);
         float magnetic_declination_(gps_position gps, gps_position magnetic_north);
