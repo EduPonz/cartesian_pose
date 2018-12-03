@@ -44,12 +44,12 @@ int main(int argc, char **argv)
     bool is_first_gps = true;
 
     coordinates_2d vel;
-    vel.x = 0;
-    vel.y = 0;
+    vel.x = 0.0;
+    vel.y = 0.0;
 
     coordinates_2d acc;
-    acc.x = 0;
-    acc.y = 0;
+    acc.x = 0.0;
+    acc.y = 0.0;
 
     CartesianPose pose(gps_data, gps_data, vel, acc, 0);
     cart_pose cartesian_pose;

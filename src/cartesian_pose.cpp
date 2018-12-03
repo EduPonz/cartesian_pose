@@ -186,7 +186,8 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     //                 + (float)last_velocity_.x * delta_time
     //                 + (float)imu.acceleration.x * pow(delta_time, 2);
 
-    pose.position.x = (float)last_cartesian_.position.x + (float)last_velocity_.y;
+    ROS_INFO_STREAM("X vel " << last_velocity_.x);
+    pose.position.x = last_cartesian_.position.x + last_velocity_.x;
 
     ROS_INFO_STREAM("X pose " << pose.position.x);
 
