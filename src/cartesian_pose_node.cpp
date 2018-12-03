@@ -27,7 +27,7 @@ void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
     imu_data.acceleration.y = imu_msg->si_accel_y;
     imu_data.yaw_vel = imu_msg->gyro_z;
     imu_data.bearing = imu_msg->compass_angle;
-    imu_data.timestamp = imu_msg.timestamp;
+    imu_data.timestamp = imu_msg->timestamp;
     new_imu = true;
 }
 
