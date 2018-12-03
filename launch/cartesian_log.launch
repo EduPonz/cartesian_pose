@@ -8,7 +8,8 @@
 -->
 
     <node
-        pkg = "cartesian_pose" 
+        pkg = "cartesian_pose"
+        type = "cartesian_pose"
         name = "cartesian_pose_node"
     />
 </launch>
