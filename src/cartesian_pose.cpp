@@ -307,4 +307,5 @@ void CartesianPose::set_velocity(coordinates_2d velocity)
 {
     last_velocity_.x = velocity.x;
     last_velocity_.y = velocity.y;
+    ROS_INFO_STREAM("------X vel------------- " << velocity.x);
 }
