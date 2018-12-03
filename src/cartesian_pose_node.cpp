@@ -72,27 +72,27 @@ int main(int argc, char **argv)
 
     while (ros::ok())
     {
-        // if (file_close)
-        // {
-        //     switch(instruction)
-        //     {
-        //         case 2:
-        //             file_name = directory + "surge_damping_test.csv";
-        //             file.open(file_name, std::ios_base::app);
-        //             file_close = false;
-        //             break;
-        //         case 4:
-        //             file_name = directory + "yaw_damping_test.csv";
-        //             file.open(file_name, std::ios_base::app);
-        //             file_close = false;
-        //             break;
-        //     }
-        // }
-        // else if (instruction == 0)
-        // {
-        //     file.close();
-        //     file_close = true;
-        // }
+        if (file_close)
+        {
+            switch(instruction)
+            {
+                case 2:
+                    file_name = directory + "surge_damping_test.csv";
+                    file.open(file_name, std::ios_base::app);
+                    file_close = false;
+                    break;
+                case 4:
+                    file_name = directory + "yaw_damping_test.csv";
+                    file.open(file_name, std::ios_base::app);
+                    file_close = false;
+                    break;
+            }
+        }
+        else if (instruction == 0)
+        {
+            file.close();
+            file_close = true;
+        }
 
         if (is_first_gps && new_imu && new_gps)
         {
@@ -118,13 +118,13 @@ int main(int argc, char **argv)
             new_data = true;
         }
 
-        // if (new_data && !file_close)
-        // {
-        //     file << pose.get_speed() << ";"
-        //          << pose.get_yaw_velocity() << ";"
-        //          << cartesian_pose.timestamp << std::endl;
-        //     new_data = false;
-        // }
+        if (new_data && !file_close)
+        {
+            file << pose.get_speed() << ";"
+                 << pose.get_yaw_velocity() << ";"
+                 << cartesian_pose.timestamp << std::endl;
+            new_data = false;
+        }
         ros::spinOnce();
         loop_rate.sleep();
     }

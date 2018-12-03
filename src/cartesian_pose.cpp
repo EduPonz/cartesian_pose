@@ -173,14 +173,14 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     set_last_yaw_vel_(temp_yaw_vel);
     set_last_yaw_acc_(temp_yaw_acc);
 
-    ROS_INFO("****************************** GPS ******************************");
-    ROS_INFO_STREAM("GPS Coordiantes --> (" << gps.latitude << "; " << gps.longitude << ")");
-    ROS_INFO_STREAM("Position ---------> (" << pose.position.x << "; " << pose.position.y << ")");
-    ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
-    ROS_INFO_STREAM("Speed ------------> " << get_speed());
-    ROS_INFO_STREAM("Timestamp --------> " << pose.timestamp);
-    ROS_INFO_STREAM("Delta time_t -----> " << delta_time_t);
-    ROS_INFO_STREAM("Delta time -------> " << delta_time);
+    // ROS_INFO("****************************** GPS ******************************");
+    // ROS_INFO_STREAM("GPS Coordiantes --> (" << gps.latitude << "; " << gps.longitude << ")");
+    // ROS_INFO_STREAM("Position ---------> (" << pose.position.x << "; " << pose.position.y << ")");
+    // ROS_INFO_STREAM("Velocity ---------> (" << last_velocity_.x << "; " << last_velocity_.y << ")");
+    // ROS_INFO_STREAM("Speed ------------> " << get_speed());
+    // ROS_INFO_STREAM("Timestamp --------> " << pose.timestamp);
+    // ROS_INFO_STREAM("Delta time_t -----> " << delta_time_t);
+    // ROS_INFO_STREAM("Delta time -------> " << delta_time);
     // ROS_INFO_STREAM("Acceleration -----> (" << last_acceleration_.x << "; " << last_acceleration_.y << ")");
     // ROS_INFO_STREAM("Bearing ----------> " << last_bearing_);
     // ROS_INFO_STREAM("Yaw velocity -----> " << last_yaw_vel_);
