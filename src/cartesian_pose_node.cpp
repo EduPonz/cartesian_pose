@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     ros::Publisher publisher = n.advertise<cartesian_pose::CartesianLog>("cartesian_log", 1000);
     ros::Subscriber gnss_sub = n.subscribe("gnss_data", 1000, gnss_data_callback);
     ros::Subscriber imu_sub = n.subscribe("gy88_data", 1000, imu_data_callback);
-    ros::Rate loop_rate(10);
+    ros::Rate loop_rate(5);
 
     cartesian_pose::CartesianLog cartesian_log;
 
