@@ -53,25 +53,6 @@ int main(int argc, char **argv)
 
     CartesianPose pose(gps_data, gps_data, vel, acc, 0);
     cart_pose cartesian_pose;
-    // float bearing = -2.96452;
-    // CartesianPose pose(north, ref, vel, acc, bearing);
-    // cart_pose dest_c = pose.get_last_cartesian();
-
-    // imu_data imu;
-    // imu.acceleration.x = 3;
-    // imu.acceleration.y = 0;
-    // imu.yaw_vel = 180;
-    // imu.bearing = 177;
-    // imu.timestamp = 1000;
-
-    // dest_c = pose.cartesian_pose(imu);
-
-    // gps_position dest;
-    // dest.latitude = 57.052968;
-    // dest.longitude = 9.905196;
-    // dest.timestamp = 301000;
-
-    // dest_c = pose.cartesian_pose(dest, 87);
 
     while (ros::ok())
     {
@@ -92,7 +73,8 @@ int main(int argc, char **argv)
         else if (new_imu && !is_first_gps)
         {
             cartesian_pose = pose.cartesian_pose(imu_data);
-            ROS_INFO_STREAM("X from IMU -> " << cartesian_pose.position.x);
+            // ROS_INFO("X from IMU -> %f", cartesian_pose.position.x);
+            ROS_INFO("B from IMU -> %f", cartesian_pose.bearing);
             new_imu = false;
         }
 
