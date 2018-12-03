@@ -80,6 +80,7 @@ int main(int argc, char **argv)
     std::string directory = "/home/ubuntu/catkin_ws/src/cartesian_pose/log/";
     std::string surge_file = directory + "surge_counter.txt";
     std::string file_name;
+    int c;
 
     while (ros::ok())
     {
@@ -88,7 +89,7 @@ int main(int argc, char **argv)
             switch(instruction)
             {
                 case 2:
-                    int c = get_file_number(surge_file);
+                    c = get_file_number(surge_file);
                     file_name = directory + "surge_damping_test_" + std::to_string(c) + ".csv";
                     file.open(file_name);
                     file_close = false;
