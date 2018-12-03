@@ -88,8 +88,8 @@ int main(int argc, char **argv)
             switch(instruction)
             {
                 case 2:
-                    int count = get_file_number(surge_file);
-                    file_name = directory + "surge_damping_test_" + std::to_string(count) + ".csv";
+                    int c = get_file_number(surge_file);
+                    file_name = directory + "surge_damping_test_" + std::to_string(c) + ".csv";
                     file.open(file_name);
                     file_close = false;
                     break;
