@@ -41,8 +41,9 @@ void instruction_callback(const catamaran_controller::LogInstruction::ConstPtr& 
 
 int get_file_number(std::string file_name)
 {
-    ifstream count_file(file_name);
-    count = (int)getline(file_name, line) + 1;
+    std::string line;
+    std::ifstream count_file(file_name);
+    int count = (int)getline(file_name, line) + 1;
     count_file.close();
     return count;
 }
