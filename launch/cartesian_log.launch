@@ -1,0 +1,12 @@
+<launch>
+    <node> 
+        pkg = "gnss_interface" 
+        name = "gnss_interface_node"
+        required = "true"
+    </node>
+
+    <node>
+        pkg = "cartesian_pose" 
+        name = "cartesian_pose_node"
+    </node>
+</launch>
