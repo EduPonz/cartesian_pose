@@ -182,9 +182,12 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     ROS_INFO_STREAM("delta time " << delta_time);
 
     cart_pose pose;
+    // pose.position.x = (float)last_cartesian_.position.x
+    //                 + (float)last_velocity_.x * delta_time
+    //                 + (float)imu.acceleration.x * pow(delta_time, 2);
+
     pose.position.x = (float)last_cartesian_.position.x
-                    + (float)last_velocity_.x * delta_time
-                    + (float)imu.acceleration.x * pow(delta_time, 2);
+                    + (float)last_velocity_.x * delta_time;
 
     ROS_INFO_STREAM("X pose " << pose.position.x);
 
