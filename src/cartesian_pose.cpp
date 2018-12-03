@@ -145,7 +145,7 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     pose.bearing = last_bearing_;
     pose.timestamp = gps.timestamp;
 
-    float delta_time = (pose.timestamp - last_cartesian_.timestamp) / 1000;
+    float delta_time = ((float)pose.timestamp - (float)last_cartesian_.timestamp) / 1000;
     coordinates_2d temp_vel;
     temp_vel.x = (pose.position.x - last_cartesian_.position.x) / delta_time;
     temp_vel.y = (pose.position.y - last_cartesian_.position.y) / delta_time;
