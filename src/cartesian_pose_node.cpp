@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         else if (new_imu && !is_first_gps)
         {
             cartesian_pose = pose.cartesian_pose(imu_data);
-            ROS_INFO("X from IMU -> %f", cartesian_pose.position.x);
+            ROS_INFO_STREAM("X from IMU -> " << cartesian_pose.position.x);
             new_imu = false;
         }
 
