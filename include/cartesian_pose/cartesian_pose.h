@@ -69,6 +69,7 @@ class CartesianPose
         gps_position get_gps_ref();
         coordinates_2d get_acceleration();
         coordinates_2d get_velocity();
+        float get_speed();
         float get_yaw_acceleration();
         float get_yaw_velocity();
         bool set_magnetic_declination(float declination);

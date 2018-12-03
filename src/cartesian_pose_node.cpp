@@ -1,3 +1,4 @@
+#include <string>
 #include <ros/console.h>
 #include "ros/ros.h"
 #include "cartesian_pose/CartesianLog.h"
@@ -35,7 +36,6 @@ void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
 void instruction_callback(const catamaran_controller::LogInstruction::ConstPtr& instruction_msg)
 {
     instruction = instruction_msg->instruction;
-    ROS_INFO("Instruction %i", instruction);
 }
 
 int main(int argc, char **argv)
@@ -63,8 +63,35 @@ int main(int argc, char **argv)
     CartesianPose pose(gps_data, gps_data, vel, acc, 0);
     cart_pose cartesian_pose;
 
+    bool new_data = false;
+    bool file_close = true;
+    std::ofstream file;
+    std::string directory = "/home/ubuntu/catkin_ws/src/cartesian_pose/log/";
+
     while (ros::ok())
     {
+        if (file_close)
+        {
+            switch(instruction)
+            {
+                case 2:
+                    std::string file_name = directory + "surge_damping_test.csv";
+                    file.open(file_name, std::ios_base::app);
+                    file_close = false;
+                    break;
+                case 4:
+                    std::string file_name = directory + "yaw_damping_test.csv";
+                    file.open(file_name, std::ios_base::app);
+                    file_close = false;
+                    break;
+            }
+        }
+        else if (instruction == 0)
+        {
+            file.close();
+            file_close = true;
+        }
+
         if (is_first_gps && new_imu && new_gps)
         {
             pose = CartesianPose(gps_data, gps_data, vel, acc, imu_data.bearing);
@@ -72,6 +99,7 @@ int main(int argc, char **argv)
             is_first_gps = false;
             new_gps = false;
             new_imu = false;
+            new_data = true;
         }
         else if (new_gps && !is_first_gps)
         {
@@ -79,13 +107,22 @@ int main(int argc, char **argv)
             cartesian_log.ready_to_log = true;
             publisher.publish(cartesian_log);
             new_gps = false;
+            new_data = true;
         }
         else if (new_imu && !is_first_gps)
         {
             cartesian_pose = pose.cartesian_pose(imu_data);
             new_imu = false;
+            new_data = true;
         }
 
+        if (new_data && !file_close)
+        {
+            file << pose.get_speed() << ";"
+                 << pose.get_yaw_velocity() << ";"
+                 << cartesian_pose.timestamp << std::endl;
+            new_data = false;
+        }
         ros::spinOnce();
         loop_rate.sleep();
     }

@@ -271,6 +271,11 @@ coordinates_2d CartesianPose::get_velocity()
     return last_velocity_;
 }
 
+float CartesianPose::get_speed()
+{
+    return sqrt(pow(last_velocity_.x, 2), pow(last_velocity_.y, 2));
+}
+
 float CartesianPose::get_yaw_acceleration()
 {
     return last_yaw_acc_;
