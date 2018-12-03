@@ -186,7 +186,7 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     //                 + (float)last_velocity_.x * delta_time
     //                 + (float)imu.acceleration.x * pow(delta_time, 2);
 
-    ROS_INFO_STREAM("X vel " << last_velocity_.x);
+    ROS_INFO_STREAM("X vel last " << last_velocity_.x);
     pose.position.x = last_cartesian_.position.x + last_velocity_.x;
 
     ROS_INFO_STREAM("X pose " << pose.position.x);
@@ -206,6 +206,7 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
     coordinates_2d vel;
     vel.x = last_velocity_.x + imu.acceleration.x * delta_time;
     vel.y = last_velocity_.y + imu.acceleration.y * delta_time;
+    ROS_INFO_STREAM("X vel " << last_velocity_.x);
 
     float yaw_vel = radians_(imu.yaw_vel);
     float yaw_acc = (yaw_vel - last_yaw_vel_) * delta_time; 
@@ -304,5 +305,6 @@ bool CartesianPose::set_magnetic_north_gps(gps_position gps)
 
 void CartesianPose::set_velocity(coordinates_2d velocity)
 {
-    last_velocity_ = velocity;
+    last_velocity_.x = velocity.x;
+    last_velocity_.y = velocity.y;
 }
