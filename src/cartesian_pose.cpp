@@ -24,6 +24,8 @@ CartesianPose::CartesianPose(gps_position magnetic_north, gps_position ref, coor
     last_cartesian_.position = cartesian_position_(ref);
     last_cartesian_.bearing = last_bearing_;
     last_cartesian_.timestamp = ref.timestamp;
+
+    last_gps_cart_ = last_cartesian_.position;
 }
 
 CartesianPose::~CartesianPose() { }
@@ -149,8 +151,10 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     float delta_time = (float)delta_time_t / 1000.0;
 
     coordinates_2d temp_vel;
-    temp_vel.x = (float)(pose.position.x - last_cartesian_.position.x) / delta_time;
-    temp_vel.y = (float)(pose.position.y - last_cartesian_.position.y) / delta_time;
+    temp_vel.x = (float)(pose.position.x - last_gps_cart_.x) / delta_time;
+    temp_vel.y = (float)(pose.position.y - last_gps_cart_.y) / delta_time;
+
+    last_gps_cart_ = pose.position;
 
     coordinates_2d temp_acc;
     temp_acc.x = (float)(temp_vel.x - last_velocity_.x) / delta_time;

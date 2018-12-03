@@ -35,6 +35,7 @@ class CartesianPose
         gps_position ref_;
         gps_position last_gps_;
         cart_pose last_cartesian_;
+        coordinates_2d last_gps_cart_;
         coordinates_2d last_velocity_;
         coordinates_2d last_acceleration_;
         float declination_;
