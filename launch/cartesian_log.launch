@@ -1,6 +1,6 @@
 <launch>
-    <node 
-        pkg = "gnss_l86_interface" 
+    <node
+        pkg = "gnss_l86_interface"
         name = "gnss_l86_interface_node"
         type = "gnss_l86_interface_node"
         args = "/dev/serial0"
@@ -9,8 +9,8 @@
 
     <node 
         pkg = "gy_88_interface"
-        name = "gy_88_interface_node"
-        type = "gy_88_interface_node"
+        name = "imu_interface_node"
+        type = "imu_interface_node"
         required = "true"
     />
 
