@@ -3,7 +3,7 @@
         pkg = "gnss_l86_interface" 
         name = "gnss_l86_interface_node"
         type = "gnss_l86_interface_node"
-        args ="/dev/serial0"
+        args = "/dev/serial0"
         required = "true"
     /> 
 

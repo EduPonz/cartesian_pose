@@ -10,6 +10,7 @@ add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
   gnss_l86_interface
+  gy_88_interface
   roscpp
   std_msgs
   message_generation
@@ -123,9 +124,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME}
-  src/cartesian_pose.cpp
-)
+add_library(${PROJECT_NAME} src/cartesian_pose.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -150,6 +149,8 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
   cartesian_pose
+  gnss_l86_lib
+  gy_88_lib
   ${catkin_LIBRARIES}
 )
 
