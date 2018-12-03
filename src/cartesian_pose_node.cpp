@@ -1,3 +1,4 @@
+#include <chrono>
 #include <fstream>
 #include <string>
 #include <ros/console.h>
@@ -39,20 +40,25 @@ void instruction_callback(const catamaran_controller::LogInstruction::ConstPtr& 
     instruction = instruction_msg->instruction;
 }
 
-int get_file_number(std::string file_name)
+// int get_file_number(std::string file_name)
+// {
+//     std::string line;
+//     std::ifstream count_file(file_name);
+//     std::getline(count_file, line);
+//     int count = std::stoi(line) + 1;
+//     count_file.close();
+
+//     std::ofstream count_file_in;
+//     file.open(file_name);
+//     count_file_in << count << std::endl;
+//     count_file_in.close();
+
+//     return count;
+// }
+
+unsigned long long get_unix_millis()
 {
-    std::string line;
-    std::ifstream count_file(file_name);
-    std::getline(count_file, line);
-    int count = std::stoi(line) + 1;
-    count_file.close();
-
-    std::ofstream count_file_in;
-    file.open(file_name);
-    count_file_in << count << std::endl;
-    count_file_in.close();
-
-    return count;
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 int main(int argc, char **argv)
@@ -86,7 +92,7 @@ int main(int argc, char **argv)
     std::string directory = "/home/ubuntu/catkin_ws/src/cartesian_pose/log/";
     std::string surge_file = directory + "surge_counter.txt";
     std::string file_name;
-    int c;
+    // int c;
 
     while (ros::ok())
     {
@@ -95,8 +101,8 @@ int main(int argc, char **argv)
             switch(instruction)
             {
                 case 2:
-                    c = get_file_number(surge_file);
-                    file_name = directory + "surge_damping_test_" + std::to_string(c) + ".csv";
+                    // c = get_file_number(surge_file);
+                    file_name = directory + "surge_damping_test_" + std::to_string(get_unix_millis()) + ".csv";
                     file.open(file_name);
                     file_close = false;
                     break;
