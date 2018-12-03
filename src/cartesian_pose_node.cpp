@@ -43,7 +43,8 @@ int get_file_number(std::string file_name)
 {
     std::string line;
     std::ifstream count_file(file_name);
-    int count = (int)std::getline(count_file, line) + 1;
+    std::getline(count_file, line);
+    int count = std::stoi(line) + 1;
     count_file.close();
     return count;
 }
@@ -77,6 +78,7 @@ int main(int argc, char **argv)
     bool file_close = true;
     std::ofstream file;
     std::string directory = "/home/ubuntu/catkin_ws/src/cartesian_pose/log/";
+    std::string surge_file = directory + "surge_counter.txt";
     std::string file_name;
 
     while (ros::ok())
@@ -86,7 +88,6 @@ int main(int argc, char **argv)
             switch(instruction)
             {
                 case 2:
-                    surge_file = directory + "surge_counter.txt";
                     int count = get_file_number(surge_file);
                     file_name = directory + "surge_damping_test_" + std::to_strin(count) + ".csv";
                     file.open(file_name);
