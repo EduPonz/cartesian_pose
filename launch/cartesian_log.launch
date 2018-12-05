@@ -11,6 +11,7 @@
         pkg = "imu_interface"
         name = "imu_interface_node"
         type = "imu_interface_node"
+        args = "300"
         required = "true"
     />
 
