@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <ros/console.h>
@@ -16,6 +17,7 @@ imu_data imu_data;
 bool new_imu = false;
 bool new_gps = false;
 int instruction = 0;
+bool new_instruction = false;
 
 void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
 {
@@ -38,6 +40,7 @@ void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
 void instruction_callback(const catamaran_controller::LogInstruction::ConstPtr& instruction_msg)
 {
     instruction = instruction_msg->instruction;
+    new_instruction = true;
 }
 
 unsigned long long get_unix_millis()
@@ -71,36 +74,33 @@ int main(int argc, char **argv)
     cart_pose cartesian_pose;
 
     bool new_data = false;
-    bool file_close = true;
     std::ofstream file;
     std::string directory = "/home/ubuntu/catkin_ws/src/cartesian_pose/log/";
     std::string file_name;
+    unsigned long long random = rand();
+    int counter = 0;
 
     while (ros::ok())
     {
-        if (file_close)
+        if (new_instruction)
         {
             switch(instruction)
             {
+                case 0:
+                    counter ++;
+                    break;
                 case 2:
-                    file_name = directory + "surge_damping_test_" + std::to_string(get_unix_millis()) + ".csv";
-                    file.open(file_name);
-                    file_close = false;
+                    file_name = directory + "surge_damping_test_" + std::to_string(random) + "_";
                     break;
                 case 4:
-                    file_name = directory + "yaw_damping_test_" + std::to_string(get_unix_millis()) + ".csv";
-                    file.open(file_name);
-                    file_close = false;
+                    file_name = directory + "yaw_damping_test_" + std::to_string(random) + "_";
                     break;
             }
-        }
-        else if (instruction == 0)
-        {
-            file.close();
-            file_close = true;
+            new_instruction = false;
         }
 
-        if (is_first_gps && new_imu && new_gps)
+        // if (is_first_gps && new_imu && new_gps)
+        if (is_first_gps && new_imu)
         {
             pose = CartesianPose(gps_data, gps_data, vel, acc, imu_data.bearing);
             cartesian_pose = pose.get_last_cartesian();
@@ -124,13 +124,19 @@ int main(int argc, char **argv)
             new_data = true;
         }
 
-        if (new_data && !file_close)
+        if (new_data && instruction != 0)
         {
+            file.open(file_name + std::to_string(counter) + ".csv", std::ios_base::app);
             file << pose.get_speed() << ";"
                  << pose.get_yaw_velocity() << ";"
+                 << cartesian_pose.position.x << ";"
+                 << cartesian_pose.position.y << ";"
+                 << cartesian_pose.bearing << ";"
                  << cartesian_pose.timestamp << std::endl;
+            file.close();
             new_data = false;
         }
+
         ros::spinOnce();
         loop_rate.sleep();
     }
