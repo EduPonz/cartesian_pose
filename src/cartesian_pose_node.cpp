@@ -31,7 +31,7 @@ void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
 void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
 {
     // imu_data.acceleration.x = floorf(imu_msg->si_accel_x * 100) / 100; // Put 10 for one decimal, 100 for 2, 1000 for 3, etc.
-    // imu_data.acceleration.y = floorf(imu_msg->si_accel_y * 100) / 100;
+    // imu_data.acceleration.y = -floorf(imu_msg->si_accel_y * 100) / 100;
     imu_data.acceleration.x = imu_msg->si_accel_x;
     imu_data.acceleration.y = -imu_msg->si_accel_y;
     imu_data.yaw_vel = imu_msg->gyro_z;
