@@ -60,7 +60,7 @@ class CartesianPose
     public:
         CartesianPose(gps_position magnetic_north, gps_position ref, coordinates_2d initial_vel, coordinates_2d initial_acc, float initial_bearing_mag);
         ~CartesianPose();
-        cart_pose cartesian_pose(gps_position gps, float bearing_mag);
+        cart_pose cartesian_pose(gps_position gps);
         cart_pose cartesian_pose(imu_data imu);
         cart_pose get_last_cartesian();
         float get_magnectic_declination();
@@ -75,6 +75,7 @@ class CartesianPose
         float get_yaw_velocity();
         bool set_magnetic_declination(float declination);
         bool set_gps_ref(gps_position gps);
+        bool set_last_gps(gps_position gps);
         bool set_magnetic_north_gps(gps_position gps);
         void set_velocity(coordinates_2d velocity);
 };

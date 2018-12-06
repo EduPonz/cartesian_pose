@@ -136,12 +136,9 @@ void CartesianPose::set_last_yaw_acc_(float yaw_acc)
     last_yaw_acc_ = yaw_acc;
 }
 // **************************************** PUBLIC *****************************************
-cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
+cart_pose CartesianPose::cartesian_pose(gps_position gps)
 {
-    assert(check_angle_(bearing_mag));
-
-    float bearing = radians_(bearing_mag) + declination_;
-
+    set_last_gps(gps);
     cart_pose pose;
     pose.position = cartesian_position_(gps);
     pose.bearing = last_bearing_;
@@ -162,16 +159,9 @@ cart_pose CartesianPose::cartesian_pose(gps_position gps, float bearing_mag)
     temp_acc.x = (float)(temp_vel.x - last_velocity_.x) / delta_time;
     temp_acc.y = (float)(temp_vel.y - last_velocity_.y) / delta_time;
 
-    float delta_bearing = bearing - last_bearing_;
-    float temp_yaw_vel = delta_bearing / delta_time;
-    float delta_yaw_vel = temp_yaw_vel - last_yaw_vel_;
-    float temp_yaw_acc = delta_yaw_vel / delta_time;
-
     set_last_cartesian_(pose);
     set_velocity(temp_vel);
     set_acceleration_(temp_acc);
-    set_last_yaw_vel_(temp_yaw_vel);
-    set_last_yaw_acc_(temp_yaw_acc);
 
     // ROS_INFO("****************************** GPS ******************************");
     // ROS_INFO_STREAM("GPS Coordiantes --> (" << gps.latitude << "; " << gps.longitude << ")");
@@ -312,6 +302,17 @@ bool CartesianPose::set_gps_ref(gps_position gps)
     else
     {
         ref_ = radians_(gps);
+        return true;
+    }
+}
+
+bool CartesianPose::set_last_gps(gps_position gps)
+{
+    if (!check_gps_position_(gps))
+        return false;
+    else
+    {
+        last_gps_ = radians_(gps);
         return true;
     }
 }
