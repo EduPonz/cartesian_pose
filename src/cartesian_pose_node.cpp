@@ -30,10 +30,10 @@ void gnss_data_callback(const gnss_l86_interface::GnssData::ConstPtr& gnss_msg)
 
 void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
 {
-    // imu_data.acceleration.x = floorf(imu_msg->si_accel_x * 100) / 100; // Put 10 for one decimal, 100 for 2, 1000 for 3, etc.
-    // imu_data.acceleration.y = -floorf(imu_msg->si_accel_y * 100) / 100;
-    imu_data.acceleration.x = imu_msg->si_accel_x;
-    imu_data.acceleration.y = -imu_msg->si_accel_y;
+    imu_data.acceleration.x = floorf(imu_msg->si_accel_x * 100) / 100; // Put 10 for one decimal, 100 for 2, 1000 for 3, etc.
+    imu_data.acceleration.y = -floorf(imu_msg->si_accel_y * 100) / 100;
+    // imu_data.acceleration.x = imu_msg->si_accel_x;
+    // imu_data.acceleration.y = -imu_msg->si_accel_y;
     imu_data.yaw_vel = imu_msg->gyro_z;
     imu_data.bearing = imu_msg->compass_angle;
     imu_data.timestamp = imu_msg->timestamp;
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     ros::Subscriber gnss_sub = n.subscribe("gnss_data", 1000, gnss_data_callback);
     ros::Subscriber imu_sub = n.subscribe("gy88_data", 1000, imu_data_callback);
     ros::Subscriber catamaran_sub = n.subscribe("log_instruction", 1000, instruction_callback);
-    ros::Rate loop_rate(20);
+    ros::Rate loop_rate(40);
 
     cartesian_pose::CartesianLog cartesian_log;
 
@@ -128,8 +128,8 @@ int main(int argc, char **argv)
             new_instruction = false;
         }
 
-        // if (is_first_gps && new_imu)
-        if (is_first_gps && new_imu && new_gps)
+       // if (is_first_gps && new_imu)
+       if (is_first_gps && new_imu && new_gps)
         {
             pose = CartesianPose(gps_data, gps_data, vel, acc, imu_data.bearing);
             cartesian_pose = pose.get_last_cartesian();
@@ -138,8 +138,8 @@ int main(int argc, char **argv)
             new_imu = false;
             new_data = true;
         }
-        // else if (!is_first_gps)
-        else if (new_gps && !is_first_gps)
+       // else if (!is_first_gps)
+       else if (new_gps && !is_first_gps)
         {
             cartesian_pose = pose.cartesian_pose(gps_data);
             cartesian_log.ready_to_log = true;
