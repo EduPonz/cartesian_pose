@@ -196,8 +196,8 @@ cart_pose CartesianPose::cartesian_pose(imu_data imu)
                     + (float)imu.acceleration.x * pow(delta_time, 2);
 
     pose.position.y = (float)last_cartesian_.position.y
-                    + (float)last_velocity_.y * delta_time
-                    + (float)imu.acceleration.y * pow(delta_time, 2);
+                    + 0.5 * (float)last_velocity_.y * delta_time
+                    + 0.5 * (float)imu.acceleration.y * pow(delta_time, 2);
 
     pose.bearing = last_bearing_;
     pose.timestamp = imu.timestamp;
